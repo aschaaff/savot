@@ -21,14 +21,14 @@ package cds.savot.common;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Statistics
  * </p>
  * @author Andre Schaaff 
  * 
- */public final class SavotStatistics {
+ */
+public final class SavotStatistics {
 
     private int iTablesGlobal = 0; // index of TABLE element
     private int iTablesLocal = 0; // index of TABLE element in current RESOURCE
@@ -40,97 +40,97 @@ package cds.savot.common;
     private int iGroupsGlobal = 0; // index of GROUP element
 
     public void iTablesInc() {
-	iTablesGlobal++;
-	iTablesLocal++;
+        iTablesGlobal++;
+        iTablesLocal++;
     }
 
     public void iTablesGlobalReset() {
-	iTablesGlobal = 0;
+        iTablesGlobal = 0;
     }
 
     public int getITablesGlobal() {
-	return iTablesGlobal;
+        return iTablesGlobal;
     }
 
     public void iTablesLocalReset() {
-	iTablesLocal = 0;
+        iTablesLocal = 0;
     }
 
     public int getITablesLocal() {
-	return iTablesLocal;
+        return iTablesLocal;
     }
 
     public void iTRInc() {
-	iTRGlobal++;
-	iTRLocal++;
+        iTRGlobal++;
+        iTRLocal++;
     }
 
     public void iTRGlobalReset() {
-	iTRGlobal = 0;
+        iTRGlobal = 0;
     }
 
     public int getITRGlobal() {
-	return iTRGlobal;
+        return iTRGlobal;
     }
 
     public void iTRLocalReset() {
-	iTRLocal = 0;
+        iTRLocal = 0;
     }
 
     public int getITRLocal() {
-	return iTRLocal;
+        return iTRLocal;
     }
 
     public void iTDInc() {
-	iTDGlobal++;
-	iTDLocal++;
+        iTDGlobal++;
+        iTDLocal++;
     }
 
     public void iTDGlobalReset() {
-	iTDGlobal = 0;
+        iTDGlobal = 0;
     }
 
     public int getITDGlobal() {
-	return iTDGlobal;
+        return iTDGlobal;
     }
 
     public void iTDLocalReset() {
-	iTDLocal = 0;
+        iTDLocal = 0;
     }
 
     public int getITDLocal() {
-	return iTDLocal;
+        return iTDLocal;
     }
 
     public void iResourcesInc() {
-	iResources++;
+        iResources++;
     }
 
     public void iResourcesReset() {
-	iResources = 0;
+        iResources = 0;
     }
 
     public void iResources(final int value) {
-	iResources = value;
+        iResources = value;
     }
 
     public int getIResources() {
-	return iResources;
+        return iResources;
     }
 
     public void iGroupsGlobalInc() {
-	iGroupsGlobal++;
+        iGroupsGlobal++;
     }
 
     public void iGroupsGlobalReset() {
-	iGroupsGlobal = 0;
+        iGroupsGlobal = 0;
     }
 
     public void iGroupsGlobal(final int value) {
-	iGroupsGlobal = value;
+        iGroupsGlobal = value;
     }
 
     public int getIGroupsGlobal() {
-	return iGroupsGlobal;
+        return iGroupsGlobal;
     }
 }

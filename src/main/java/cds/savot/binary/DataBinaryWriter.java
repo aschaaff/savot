@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 import cds.savot.model.FieldSet;
 import cds.savot.model.SavotField;
 import cds.savot.model.SavotTD;
@@ -124,11 +123,12 @@ public final class DataBinaryWriter implements SavotDataWriter {
         }
     }
 
- /**
-  * @param row SavotTR
-  * @throws java.io.IOException
-  * @throws cds.savot.model.interpreter.BinaryInterpreterException
-  */
+    /**
+     * @param row SavotTR
+     * @throws java.io.IOException
+     * @throws cds.savot.model.interpreter.BinaryInterpreterException
+     */
+    @Override
     public void writeTR(final SavotTR row) throws IOException, BinaryInterpreterException {
         if (output == null) {
             throw new IOException("Writer closed !");
@@ -147,6 +147,7 @@ public final class DataBinaryWriter implements SavotDataWriter {
      * @throws java.io.IOException
      * @throws cds.savot.model.interpreter.BinaryInterpreterException
      */
+    @Override
     public void writeTRSet(final TRSet rows) throws IOException, BinaryInterpreterException {
         if (output == null) {
             throw new IOException("Writer closed !");
@@ -160,13 +161,15 @@ public final class DataBinaryWriter implements SavotDataWriter {
     /**
      * @throws IOException
      */
+    @Override
     public void flush() throws IOException {
         output.flush();
     }
-    
+
     /**
      * @throws IOException
      */
+    @Override
     public void close() throws IOException {
         output.close();
         output = null;

@@ -21,7 +21,6 @@ package cds.savot.pull;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,17 +80,18 @@ import java.util.zip.GZIPInputStream;
  * 
  * @author Andre Schaaff
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public final class SavotPullEngine implements Markups {
+
     /** Logger associated to SavotPullEngine classes */
-    private final static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SavotPullEngine.class.getName()); 
+    private final static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SavotPullEngine.class.getName());
     /** flag to enable / disable usage of String.trim() on every value (enabled by default) */
-    private static final boolean doTrimValues = false;  
+    private static final boolean doTrimValues = false;
     /** flag to enable / disable line numbers (TR) */
-    private static final boolean doLineInfo = false;  
+    private static final boolean doLineInfo = false;
     /** flag to enable / disable statistics */
-    private static final boolean doStats = false;  
-    
+    private static final boolean doStats = false;
+
     /* parsing modes */
     /** FULL parsing mode: deprecated and replaced by FULLREAD */
     public static final int FULL = 0;
@@ -102,8 +102,8 @@ public final class SavotPullEngine implements Markups {
     /** RESOURCEREAD parsing mode: row per row reading */
     public static final int RESOURCEREAD = 1;
     /** ROWREAD parsing mode: row per row reading */
-    public static final int ROWREAD = 2; 
-    
+    public static final int ROWREAD = 2;
+
     /** default stack capacity = 4 slots */
     public final static int DEFAULT_STACK_CAPACITY = 4;
     /** empty TD instance */
@@ -111,15 +111,15 @@ public final class SavotPullEngine implements Markups {
 
     /* members */
     /** statistics dedicated to this parser */
-    private final SavotStatistics statistics; 
+    private final SavotStatistics statistics;
     /** xml pull parser needed for sequential parsing */
     private XmlPullParser xmlParser = null;
     /** input stream used to close it anyway */
     private InputStream inputStream = null;
     /** reader used to close it anyway */
-    private Reader reader = null;  
+    private Reader reader = null;
     /** debug mode */
-    private boolean debugMode = false; 
+    private boolean debugMode = false;
     // data model objects
     private SavotVOTable _currentVOTable = new SavotVOTable();
     private SavotResource _currentResource = new SavotResource(); // RESOURCEREAD mode only
@@ -129,22 +129,22 @@ public final class SavotPullEngine implements Markups {
     private int tableCounter = 0;
     private int rowCounter = 0;
     private int dataCounter = 0;
-    
+
     // used for recursive management
-    private final ArrayList<VOTableTag> fatherTags = new ArrayList<VOTableTag>(DEFAULT_STACK_CAPACITY);  
+    private final ArrayList<VOTableTag> fatherTags = new ArrayList<VOTableTag>(DEFAULT_STACK_CAPACITY);
     // used for recursive resources, LIFO mode
-    private final ArrayList<SavotResource> resourcestack = new ArrayList<SavotResource>(DEFAULT_STACK_CAPACITY); 
+    private final ArrayList<SavotResource> resourcestack = new ArrayList<SavotResource>(DEFAULT_STACK_CAPACITY);
     // used for recursive options, LIFO mode
     private final ArrayList<SavotOption> optionstack = new ArrayList<SavotOption>(DEFAULT_STACK_CAPACITY);
     // used for recursives groups, LIFO mode
-    private final ArrayList<SavotGroup> groupstack = new ArrayList<SavotGroup>(DEFAULT_STACK_CAPACITY); 
-    
+    private final ArrayList<SavotGroup> groupstack = new ArrayList<SavotGroup>(DEFAULT_STACK_CAPACITY);
+
     // for multi level resource
-    private int includedResource = 0; 
+    private int includedResource = 0;
     // for multi level option
-    private int includedOption = 0; 
+    private int includedOption = 0;
     // for multi level group
-    private int includedGroup = 0; 
+    private int includedGroup = 0;
     private SavotTable currentTable = null;
     private SavotField currentField = null;
     private SavotFieldRef currentFieldRef = null;
@@ -238,7 +238,7 @@ public final class SavotPullEngine implements Markups {
 
         // TODO: detect compression
         final boolean compressed = url.getPath().endsWith("gz");
-    
+
         try {
 
             // set the input of the parser (with the given encoding)
@@ -310,7 +310,7 @@ public final class SavotPullEngine implements Markups {
      *            (per TR for small memory size applications)
      * @param debug
      * @param stats
-    */
+     */
     public SavotPullEngine(final XmlPullParser parser, final Reader reader,
                            final int mode, final boolean debug, final SavotStatistics stats) {
 
@@ -700,8 +700,8 @@ public final class SavotPullEngine implements Markups {
                                     break;
 
                                 case TABLE:
-                                    stats.iTablesInc(); 
-                                    
+                                    stats.iTablesInc();
+
                                     currentTable = new SavotTable();
 
                                     // for statistics only
@@ -805,8 +805,6 @@ public final class SavotPullEngine implements Markups {
                                         }
                                     }
                                     break;
-
-
 
                                 case VALUES:
                                     currentValues = new SavotValues();
@@ -1196,7 +1194,7 @@ public final class SavotPullEngine implements Markups {
                             switch (tag) {
                                 case TD:
                                     stats.iTDInc();
-                                    
+
                                     // reduce SavotTD instances:
                                     tdSet.addItem((currentTD == null) ? emptyTD : currentTD);
                                     break;
@@ -1317,10 +1315,10 @@ public final class SavotPullEngine implements Markups {
                                         currentOption.getOptions().addItem(tmp);
                                         includedOption--;
                                     } else {
-                                	if (lastFather() == VOTableTag.VALUES) {
-                                	    currentValues.getOptions().addItem(currentOption);
+                                        if (lastFather() == VOTableTag.VALUES) {
+                                            currentValues.getOptions().addItem(currentOption);
                                             if (trace) {
-                                        	System.err.println("OPTION from VALUES father = " + father);
+                                                System.err.println("OPTION from VALUES father = " + father);
                                             }
                                             includedOption--;
                                         }
@@ -1334,13 +1332,13 @@ public final class SavotPullEngine implements Markups {
                                         currentGroup.getGroups().addItem(tmp);
                                         includedGroup--;
                                     } else {
-                                	if (lastFather() == VOTableTag.TABLE) {
-                                	    currentTable.getGroups().addItem(currentGroup);
+                                        if (lastFather() == VOTableTag.TABLE) {
+                                            currentTable.getGroups().addItem(currentGroup);
                                             if (trace) {
-                                        	System.err.println("GROUP from TABLE father = " + father);
+                                                System.err.println("GROUP from TABLE father = " + father);
                                             }
                                             includedGroup--;
-                                	}
+                                        }
                                     }
                                     break;
 
@@ -1505,7 +1503,6 @@ public final class SavotPullEngine implements Markups {
                                         default:
                                     }
                                     break;
-
 
                                 case BINARY:
                                     currentData.setBinary(currentBinary);
@@ -1688,7 +1685,6 @@ public final class SavotPullEngine implements Markups {
                             System.err.println("> FATHER, case null");
                         }
                         break;
-
 
                     // if an end document is reached:
                     case XmlPullParser.END_DOCUMENT:

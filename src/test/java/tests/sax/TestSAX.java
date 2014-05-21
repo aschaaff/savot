@@ -1,4 +1,4 @@
-package cds.astrores.sax;
+package tests.sax;
 
 //Copyright 2002-2014 - UDS/CNRS
 //The SAVOT library is distributed under the terms
@@ -21,7 +21,7 @@ package cds.astrores.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
+import cds.astrores.sax.AstroresSAXParser;
 import java.io.IOException;
 
 /**
@@ -44,20 +44,20 @@ public class TestSAX {
      * @param file
      */
     public TestSAX(String file) {
-	try {
-	    System.err.println("Total memory           : "
-		    + Runtime.getRuntime().totalMemory());
-	    freeMemory = Runtime.getRuntime().freeMemory();
-	    System.err.println("Free memory (Begin)    : " + freeMemory);
+        try {
+            System.err.println("Total memory           : "
+                    + Runtime.getRuntime().totalMemory());
+            freeMemory = Runtime.getRuntime().freeMemory();
+            System.err.println("Free memory (Begin)    : " + freeMemory);
 
-	    AstroresSAXSample consumer = new AstroresSAXSample();
-	    @SuppressWarnings("unused")
-	    AstroresSAXParser sb = new AstroresSAXParser(consumer, file);
+            AstroresSAXSample consumer = new AstroresSAXSample();
+            @SuppressWarnings("unused")
+            AstroresSAXParser sb = new AstroresSAXParser(consumer, file);
 
-	} catch (Exception e) {
-	    System.err.println("TestSAX : " + e);
-	}
-	;
+        } catch (Exception e) {
+            System.err.println("TestSAX : " + e);
+        }
+        ;
     }
 
     /**
@@ -68,14 +68,14 @@ public class TestSAX {
      */
     public static void main(String[] argv) throws IOException {
 
-	if (argv.length == 0)
-	    System.err.println("Usage: java TestSAX <source>");
-	else {
-	    System.err.println("Total memory           : "
-		    + Runtime.getRuntime().totalMemory());
-	    double freeMemory = Runtime.getRuntime().freeMemory();
-	    System.err.println("Free memory (Begin)    : " + freeMemory);
-	    new TestSAX(argv[0]);
-	}
+        if (argv.length == 0) {
+            System.err.println("Usage: java TestSAX <source>");
+        } else {
+            System.err.println("Total memory           : "
+                    + Runtime.getRuntime().totalMemory());
+            double freeMemory = Runtime.getRuntime().freeMemory();
+            System.err.println("Free memory (Begin)    : " + freeMemory);
+            new TestSAX(argv[0]);
+        }
     }
 }

@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Binary element
@@ -29,7 +28,6 @@ package cds.savot.model;
  * 
  * @author Andre Schaaff
  */
-
 public final class SavotBinary extends MarkupComment {
 
     // STREAM element

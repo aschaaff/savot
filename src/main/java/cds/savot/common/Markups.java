@@ -21,7 +21,6 @@ package cds.savot.common;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * VOTable markups and attributes
@@ -29,7 +28,6 @@ package cds.savot.common;
  * 
  * @author Andre Schaaff 
  */
-
 public interface Markups {
 
     // markups
@@ -39,15 +37,18 @@ public interface Markups {
     final static String TABLE = "TABLE";
     final static String FIELD = "FIELD";
     final static String FIELDREF = "FIELDref"; /* new since VOTAble 1.1 */
+
     final static String TABLEDATA = "TABLEDATA";
     final static String DESCRIPTION = "DESCRIPTION";
     final static String DATA = "DATA";
     final static String RESOURCE = "RESOURCE";
     final static String PARAM = "PARAM";
     final static String PARAMREF = "PARAMref"; /* new since VOTAble 1.1 */
+
     final static String DEFINITIONS = "DEFINITIONS";
     final static String LINK = "LINK";
     final static String GROUP = "GROUP"; /* new since VOTAble 1.1 */
+
     final static String INFO = "INFO";
     final static String TR = "TR";
     final static String TD = "TD";
@@ -93,9 +94,12 @@ public interface Markups {
     final static String EXPIRES = "expires";
     final static String RIGHTS = "rights";
     final static String NROWS = "nrows"; // since VOTable 1.1
-    final static String XMLNSXSI = "xmlns:xsi";
-    final static String XSINOSCHEMA = "xsi:noNamespaceSchemaLocation";
-    final static String XSISCHEMA = "xsi:schemaLocation";
     final static String XMLNS = "xmlns";
+    final static String XSI = "xsi";
+    final static String XMLNSXSI = XMLNS + ":" + XSI;
+    final static String XSI_NOSCHEMA = "noNamespaceSchemaLocation";
+    final static String XSI_SCHEMA = "schemaLocation";
+    final static String XSINOSCHEMA = XSI + ":" + XSI_NOSCHEMA;
+    final static String XSISCHEMA = XSI + ":" + XSI_SCHEMA;
     final static String SYSTEM_ATTRIBUTE = "system";
 }

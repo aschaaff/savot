@@ -21,7 +21,6 @@ package cds.savot.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.util.ArrayList;
 
 import cds.savot.model.SavotCoosys;
@@ -50,12 +49,10 @@ import cds.savot.model.SavotValues;
  * 
  * @author Andre Schaaff
  */
-
 @SuppressWarnings("deprecation")
 public interface SavotSAXConsumer {
 
     // start elements
-
     public abstract void startVotable(ArrayList<SavotVOTable> attributes);
 
     public abstract void startDescription();
@@ -112,7 +109,6 @@ public interface SavotSAXConsumer {
     public abstract void startDefinitions();
 
     // end elements
-
     public abstract void endVotable();
 
     public abstract void endDescription();
@@ -168,7 +164,6 @@ public interface SavotSAXConsumer {
     public abstract void endDefinitions();
 
     // TEXT
-
     public abstract void textTD(String text);
 
     public abstract void textMin(String text);
@@ -194,7 +189,6 @@ public interface SavotSAXConsumer {
     public abstract void textStream(String text);
 
     // document
-
     public abstract void startDocument();
 
     public abstract void endDocument();

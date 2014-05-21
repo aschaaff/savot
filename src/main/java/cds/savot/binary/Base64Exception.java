@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 /**
  * Exception that can occur during the encoding/decoding of data in Base64.
  * If such an error occurs during the decoding, it would mean that the encoded message/data have been corrupted.

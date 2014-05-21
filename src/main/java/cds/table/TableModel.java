@@ -21,16 +21,14 @@ package cds.table;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.util.ArrayList;
 
 public final class TableModel {
 
     // resource properties
-  //  private String resource_description; // Astrores
-   // private String resource_name; // Astrores
-   // private String resource_title;// Astrores
-
+    //  private String resource_description; // Astrores
+    // private String resource_name; // Astrores
+    // private String resource_title;// Astrores
     // table properties
     private String id;
 
@@ -45,14 +43,12 @@ public final class TableModel {
 
     private ArrayList propertyValues = new ArrayList(); // in each element a table of property
 
-
-    private ArrayList rows = new ArrayList(); // in each row a table of values ( char [] )
+    private final ArrayList rows = new ArrayList(); // in each row a table of values ( char [] )
 
     // data about resource
-
     /**
-   *
-   */
+     *
+     */
     public TableModel() {
     }
 
@@ -62,14 +58,14 @@ public final class TableModel {
      * @return String[]
      */
     public String[] getTableProperties() {
-	return properties;
+        return properties;
     }
 
     /**
      * Sets the Table properties (description, resource)
      */
     public void setTableProperties(String[] properties) {
-	this.properties = properties;
+        this.properties = properties;
     }
 
     /**
@@ -81,8 +77,8 @@ public final class TableModel {
      */
     @SuppressWarnings("unchecked")
     public void setTableProperties(ArrayList fieldPropertyNames, ArrayList fieldPropertyValues) {
-	this.propertyNames = (ArrayList) fieldPropertyNames.clone();
-	this.propertyValues = (ArrayList) fieldPropertyValues.clone();
+        this.propertyNames = (ArrayList) fieldPropertyNames.clone();
+        this.propertyValues = (ArrayList) fieldPropertyValues.clone();
     }
 
     /**
@@ -93,7 +89,7 @@ public final class TableModel {
      * @return String
      */
     public String getTableProperty(String tablePropName) {
-	return null;
+        return null;
     }
 
     /**
@@ -115,7 +111,7 @@ public final class TableModel {
      * @return String[]
      */
     public String[] getRow(int index) {
-	return (String[]) rows.get(index);
+        return (String[]) rows.get(index);
     }
 
     /**
@@ -125,8 +121,8 @@ public final class TableModel {
      *            String[]
      */
     public void addRow(String[] row) {
-	// System.out.println("une de plus");
-	rows.add(row);
+        // System.out.println("une de plus");
+        rows.add(row);
     }
 
     /**
@@ -136,8 +132,8 @@ public final class TableModel {
      *            String[]
      */
     public void addRow(ArrayList values) {
-	// System.out.println("une de plus");
-	rows.add(values.toArray());
+        // System.out.println("une de plus");
+        rows.add(values.toArray());
     }
 
     /**
@@ -149,7 +145,7 @@ public final class TableModel {
      *            String[]
      */
     public void setRow(int index, String[] values) {
-	rows.set(index, values);
+        rows.set(index, values);
     }
 
     /**
@@ -162,9 +158,9 @@ public final class TableModel {
      * @return String
      */
     public String getValueAt(int row, int col) {
-	String[] localrow;
-	localrow = (String[]) rows.get(row);
-	return localrow[col];
+        String[] localrow;
+        localrow = (String[]) rows.get(row);
+        return localrow[col];
     }
 
     /**
@@ -179,10 +175,10 @@ public final class TableModel {
      */
     @SuppressWarnings("unchecked")
     public void setValueAt(int row, int col, String value) {
-	String[] localrow;
-	localrow = (String[]) rows.get(row);
-	localrow[col] = value;
-	rows.set(row, localrow);
+        String[] localrow;
+        localrow = (String[]) rows.get(row);
+        localrow[col] = value;
+        rows.set(row, localrow);
     }
 
     /**
@@ -194,7 +190,7 @@ public final class TableModel {
      * @return String[]
      */
     public String[] getProperties(int col) {
-	return null;
+        return null;
     }
 
     /**
@@ -219,7 +215,7 @@ public final class TableModel {
      * @return String
      */
     public String getProperties(int col, String propName) {
-	return null;
+        return null;
     }
 
     /**
@@ -237,15 +233,12 @@ public final class TableModel {
 
     // Le tout serait accessible via une classe TableParser qui pourrait fournir
     // qq chose comme :
-
     // Object creation
     // TableParser pt = new TableParser(InputStream in);
-
     // Lancement de l'analyse
     // Table table[] = pt.parse();
-
     public void setDescription(String description) {
-	this.description = description;
+        this.description = description;
     }
 
     /**
@@ -253,7 +246,7 @@ public final class TableModel {
      * @return String
      */
     public String getDescription() {
-	return description.toString();
+        return description;
     }
 
     /**
@@ -262,7 +255,7 @@ public final class TableModel {
      *            String
      */
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
@@ -270,7 +263,7 @@ public final class TableModel {
      * @return String
      */
     public String getId() {
-	return id.toString();
+        return id;
     }
 
     /**
@@ -279,7 +272,7 @@ public final class TableModel {
      *            String
      */
     public void setName(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -287,7 +280,7 @@ public final class TableModel {
      * @return String
      */
     public String getName() {
-	return name.toString();
+        return name;
     }
 
     /**
@@ -295,7 +288,7 @@ public final class TableModel {
      * @return int
      */
     public int getRowCount() {
-	return rows.size();
+        return rows.size();
     }
 
 }

@@ -21,7 +21,6 @@ package cds.savot.pull;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -59,7 +58,7 @@ import org.kxml2.io.KXmlParser;
  * 
  * @author Andre Schaaff
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public final class SavotPullParser {
 
     /** the pull parser engine */
@@ -137,7 +136,6 @@ public final class SavotPullParser {
      *            applications)
      * @param enc
      *            encoding (example : UTF-8)
-     * @param debug
      */
     public SavotPullParser(final InputStream instream, final int mode, final String enc) {
         this(instream, mode, enc, false);
@@ -389,7 +387,7 @@ public final class SavotPullParser {
      * 
      */
     public void sequentialTester() {
-        SavotResource currentResource = new SavotResource();
+        SavotResource currentResource = null;
         do {
             currentResource = engine.getNextResource();
         } while (currentResource != null);

@@ -21,14 +21,12 @@ package cds.astrores;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * ASTRORES markups and attributes
  * </p>
  * @author Andre Schaaff 
  */
-
 public interface Markups {
 
     // markups
@@ -36,15 +34,18 @@ public interface Markups {
     final String TABLE = "TABLE";
     final static String FIELD = "FIELD";
     final static String FIELDREF = "FIELDref"; /* new 1.1 */
+
     final static String TABLEDATA = "TABLEDATA";
     final static String DESCRIPTION = "DESCRIPTION";
     final static String DATA = "DATA";
     final static String RESOURCE = "RESOURCE";
     final static String PARAM = "PARAM";
     final static String PARAMREF = "PARAMref"; /* new 1.1 */
+
     final static String DEFINITIONS = "DEFINITIONS";
     final static String LINK = "LINK";
     final static String GROUP = "GROUP"; /* new 1.1 */
+
     final static String INFO = "INFO";
     final static String TR = "TR";
     final static String TD = "TD";
@@ -69,6 +70,7 @@ public interface Markups {
     final static String REF = "ref";
     final static String TYPE = "type";
     final static String UTYPE = "utype"; /* new 1.1 */
+
     final static String UCD = "ucd";
     final static String UNIT = "unit";
     final static String VALUE = "value";

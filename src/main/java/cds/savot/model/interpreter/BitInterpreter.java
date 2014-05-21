@@ -1,6 +1,5 @@
 package cds.savot.model.interpreter;
 
-
 //Copyright 2002-2014 - UDS/CNRS
 //The SAVOT library is distributed under the terms
 //of the GNU General Public License version 3.
@@ -22,7 +21,6 @@ package cds.savot.model.interpreter;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

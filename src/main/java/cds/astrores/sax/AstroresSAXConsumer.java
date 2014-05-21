@@ -21,17 +21,14 @@ package cds.astrores.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.util.ArrayList;
 
 /**
  * @author Andre Schaaff 
  */
-
 public interface AstroresSAXConsumer {
 
     // start elements
-
     public abstract void startAstrores(@SuppressWarnings("rawtypes") ArrayList attributes);
 
     /*
@@ -81,9 +78,7 @@ public interface AstroresSAXConsumer {
      * 
      * public abstract void startDefinitions();
      */
-
     // end elements
-
     public abstract void endAstrores();
 
     /*
@@ -155,7 +150,6 @@ public interface AstroresSAXConsumer {
      * public abstract void textDescription(String text); }
      */
     // document
-
     public abstract void startDocument();
 
     public abstract void endDocument();

@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * A data (of a row)
@@ -46,9 +45,9 @@ public final class SavotTD extends SavotBase {
      * @param content
      */
     public SavotTD(final String content) {
-	this.content = content;
+        this.content = content;
     }
-    
+
     /**
      * Set element content
      * 
@@ -69,9 +68,10 @@ public final class SavotTD extends SavotBase {
 
     /**
      * Get the raw content value (maybe null)
+     *
      * @return a String or null
      */
     public String getRawContent() {
-	return content;
+        return content;
     }
 }

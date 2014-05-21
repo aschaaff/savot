@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Reference to Param element
@@ -29,7 +28,7 @@ package cds.savot.model;
  * 
  * @author Andre Schaaff
  */
-public final class SavotParamRef extends MarkupComment {
+public final class SavotParamRef extends MarkupComment implements RefSupport {
 
     // ref attribute
     private String ref = null;
@@ -49,6 +48,7 @@ public final class SavotParamRef extends MarkupComment {
      * 
      * @param ref
      */
+    @Override
     public void setRef(final String ref) {
         this.ref = ref;
     }
@@ -58,6 +58,7 @@ public final class SavotParamRef extends MarkupComment {
      * 
      * @return String
      */
+    @Override
     public String getRef() {
         return str(ref);
     }

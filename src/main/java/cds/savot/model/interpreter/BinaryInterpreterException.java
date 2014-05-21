@@ -21,7 +21,6 @@ package cds.savot.model.interpreter;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.IOException;
 
 /**

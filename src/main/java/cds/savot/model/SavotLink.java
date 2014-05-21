@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Link element
@@ -79,6 +78,7 @@ public final class SavotLink extends MarkupComment implements IDSupport {
      * 
      * @param id
      */
+    @Override
     public void setId(final String id) {
         this.id = id;
     }
@@ -88,6 +88,7 @@ public final class SavotLink extends MarkupComment implements IDSupport {
      * 
      * @return String
      */
+    @Override
     public String getId() {
         return str(id);
     }

@@ -1,4 +1,4 @@
-package cds.astrores.sax;
+package tests.sax;
 
 //Copyright 2002-2014 - UDS/CNRS
 //The SAVOT library is distributed under the terms
@@ -21,7 +21,7 @@ package cds.astrores.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
+import cds.astrores.sax.AstroresSAXConsumer;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -31,8 +31,8 @@ import java.util.Vector;
  * </p>
  * @author Andre Schaaff  
  */
-
 public class AstroresSAXSample implements AstroresSAXConsumer {
+
     public AstroresSAXSample() {
     }
 
@@ -40,7 +40,6 @@ public class AstroresSAXSample implements AstroresSAXConsumer {
     // value)
     // exemple : (attributes.elementAt(0), attributes.elementAt(1)),
     // (attributes.elementAt(2), attributes.elementAt(3)), ...
-
     // start elements
     public void startAstrores(@SuppressWarnings("rawtypes") Vector attributes) {
     }
@@ -67,7 +66,7 @@ public class AstroresSAXSample implements AstroresSAXConsumer {
     }
 
     public void startTR() {
-	System.out.println("Start new ROW");
+        System.out.println("Start new ROW");
     }
 
     public void startTD(@SuppressWarnings("rawtypes") ArrayList attributes) {
@@ -116,7 +115,7 @@ public class AstroresSAXSample implements AstroresSAXConsumer {
     }
 
     // end elements
-
+    @Override
     public void endAstrores() {
     }
 
@@ -190,9 +189,8 @@ public class AstroresSAXSample implements AstroresSAXConsumer {
     }
 
     // TEXT
-
     public void textTD(String text) {
-	System.out.println(text);
+        System.out.println(text);
     }
 
     public void textMin(String text) {
@@ -220,14 +218,17 @@ public class AstroresSAXSample implements AstroresSAXConsumer {
     }
 
     // document
+    @Override
     public void startDocument() {
     }
 
+    @Override
     public void endDocument() {
     }
 
+    @Override
     public void startAstrores(@SuppressWarnings("rawtypes") ArrayList attributes) {
-	// TODO Auto-generated method stub
-	
+        // TODO Auto-generated method stub
+
     }
 }

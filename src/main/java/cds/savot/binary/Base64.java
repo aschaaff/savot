@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -29,7 +28,7 @@ import java.util.Arrays;
 /**
  * <p>Lets encoding and decoding String with the Base64.</p>
  * 
- * <p><i><u>Note:</u>
+ * <p><u>Note:</u>
  * 	To encode/decode stream of data, you can also use Base64InputStream and Base64OutputStream.
  * </p>
  * 
@@ -117,7 +116,7 @@ public final class Base64 {
      * @return	The encoded data.
      */
     public static String encode(final byte[] byteArray) {
-	/* TODO: define intial capacity or recycle StringBuilder instances */
+        /* TODO: define intial capacity or recycle StringBuilder instances */
         final StringBuilder encoded = new StringBuilder();
 
         // 1st STEP: Pad the given bytes array with 0 so that ALL bytes can be read in groups of 3 bytes:
@@ -212,9 +211,9 @@ public final class Base64 {
 
         if (charset != null) {
             try {
-        	return new String(bytes, charset);
+                return new String(bytes, charset);
             } catch (UnsupportedEncodingException e) {
-        	/* ignored */
+                /* ignored */
             }
         }
         return new String(bytes);

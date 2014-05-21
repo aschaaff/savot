@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +39,6 @@ import java.util.Date;
 import java.util.zip.GZIPInputStream;
 
 //import org.apache.commons.codec.binary.Base64InputStream;
-
 import cds.savot.model.FieldSet;
 import cds.savot.model.SavotField;
 import cds.savot.model.SavotStream;
@@ -368,6 +366,7 @@ public final class DataBinaryReader implements SavotDataReader {
     /**
      * @throws IOException
      */
+    @Override
     public boolean next() throws IOException {
         if (row == null) {
             throw new IOException("Reader closed !");
@@ -420,6 +419,7 @@ public final class DataBinaryReader implements SavotDataReader {
      * @return an Object
      * @throws IllegalStateException
      */
+    @Override
     public Object[] getRow() throws IllegalStateException {
         ensureRowAvailable();
         return row;
@@ -429,6 +429,7 @@ public final class DataBinaryReader implements SavotDataReader {
      * @return a SAVOT TR internal model object
      * @throws IllegalStateException
      */
+    @Override
     public SavotTR getTR() throws IllegalStateException {
         ensureRowAvailable();
 
@@ -448,6 +449,7 @@ public final class DataBinaryReader implements SavotDataReader {
      * @throws IndexOutOfBoundsException
      * @throws IllegalStateException
      */
+    @Override
     public Object getCell(final int indColumn) throws IndexOutOfBoundsException, IllegalStateException {
         ensureRowAvailable();
         return (row == null) ? null : row[indColumn];
@@ -459,6 +461,7 @@ public final class DataBinaryReader implements SavotDataReader {
      * @throws IndexOutOfBoundsException
      * @throws IllegalStateException
      */
+    @Override
     public String getCellAsString(final int indColumn) throws IndexOutOfBoundsException, IllegalStateException {
         ensureRowAvailable();
         return (row == null) ? null : decoders[indColumn].convertToString(row[indColumn]);
@@ -470,6 +473,7 @@ public final class DataBinaryReader implements SavotDataReader {
      * @throws IndexOutOfBoundsException
      * @throws IllegalStateException
      */
+    @Override
     public SavotTD getTD(final int indColumn) throws IndexOutOfBoundsException, IllegalStateException {
         ensureRowAvailable();
         SavotTD td = new SavotTD();
@@ -480,6 +484,7 @@ public final class DataBinaryReader implements SavotDataReader {
     /**
      * @throws IOException
      */
+    @Override
     public void close() throws IOException {
         data.close();
         data = null;

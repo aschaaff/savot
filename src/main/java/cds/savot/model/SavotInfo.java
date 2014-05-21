@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Info element
@@ -29,7 +28,7 @@ package cds.savot.model;
  * 
  * @author Andre Schaaff
  */
-public final class SavotInfo extends MarkupComment implements IDSupport, NameSupport {
+public final class SavotInfo extends MarkupComment implements IDSupport, NameSupport, RefSupport {
 
     // id attribute
     private String id = null;
@@ -78,8 +77,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * 
      * @param id
      */
+    @Override
     public void setId(final String id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
@@ -87,8 +87,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * 
      * @return String
      */
+    @Override
     public String getId() {
-	return str(id);
+        return str(id);
     }
 
     /**
@@ -96,8 +97,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * 
      * @param name
      */
+    @Override
     public void setName(final String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -105,8 +107,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * 
      * @return String
      */
+    @Override
     public String getName() {
-	return str(name);
+        return str(name);
     }
 
     /**
@@ -115,7 +118,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param value
      */
     public void setValue(final String value) {
-	this.value = value;
+        this.value = value;
     }
 
     /**
@@ -124,7 +127,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getValue() {
-	return str(value);
+        return str(value);
     }
 
     /**
@@ -134,7 +137,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param xtype
      */
     public void setXtype(final String xtype) {
-	this.xtype = xtype;
+        this.xtype = xtype;
     }
 
     /**
@@ -144,7 +147,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getXtype() {
-	return str(xtype);
+        return str(xtype);
     }
 
     /**
@@ -153,8 +156,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @since VOTable 1.2
      * @param ref
      */
+    @Override
     public void setRef(final String ref) {
-	this.ref = ref;
+        this.ref = ref;
     }
 
     /**
@@ -163,8 +167,9 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @since VOTable 1.2
      * @return String
      */
+    @Override
     public String getRef() {
-	return str(ref);
+        return str(ref);
     }
 
     /**
@@ -174,7 +179,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param unit
      */
     public void setUnit(final String unit) {
-	this.unit = unit;
+        this.unit = unit;
     }
 
     /**
@@ -184,7 +189,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getUnit() {
-	return str(unit);
+        return str(unit);
     }
 
     /**
@@ -194,7 +199,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param ucd
      */
     public void setUcd(final String ucd) {
-	this.ucd = ucd;
+        this.ucd = ucd;
     }
 
     /**
@@ -204,7 +209,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getUcd() {
-	return str(ucd);
+        return str(ucd);
     }
 
     /**
@@ -214,7 +219,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param utype
      */
     public void setUtype(final String utype) {
-	this.utype = utype;
+        this.utype = utype;
     }
 
     /**
@@ -224,7 +229,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getUtype() {
-	return str(utype);
+        return str(utype);
     }
 
     /**
@@ -233,7 +238,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param content
      */
     public void setContent(final String content) {
-	this.content = content;
+        this.content = content;
     }
 
     /**
@@ -242,7 +247,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return a String
      */
     public String getContent() {
-	return str(content);
+        return str(content);
     }
 
     /**
@@ -252,7 +257,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param description
      */
     public void setDescription(final String description) {
-	this.description = description;
+        this.description = description;
     }
 
     /**
@@ -262,7 +267,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return String
      */
     public String getDescription() {
-	return str(description);
+        return str(description);
     }
 
     /**
@@ -272,7 +277,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param values
      */
     public void setValues(final SavotValues values) {
-	this.values = values;
+        this.values = values;
     }
 
     /**
@@ -282,7 +287,7 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return SavotValues
      */
     public SavotValues getValues() {
-	return values;
+        return values;
     }
 
     /**
@@ -292,10 +297,10 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @return LinkSet
      */
     public LinkSet getLinks() {
-	if (links == null) {
-	    links = new LinkSet();
-	}
-	return links;
+        if (links == null) {
+            links = new LinkSet();
+        }
+        return links;
     }
 
     /**
@@ -305,6 +310,6 @@ public final class SavotInfo extends MarkupComment implements IDSupport, NameSup
      * @param links
      */
     public void setLinks(final LinkSet links) {
-	this.links = links;
+        this.links = links;
     }
 }

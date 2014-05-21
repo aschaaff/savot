@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Option element
@@ -49,6 +48,7 @@ public final class SavotOption extends MarkupComment implements NameSupport {
      * 
      * @param name
      */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }
@@ -58,6 +58,7 @@ public final class SavotOption extends MarkupComment implements NameSupport {
      * 
      * @return String
      */
+    @Override
     public String getName() {
         return str(name);
     }

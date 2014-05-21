@@ -21,7 +21,6 @@ package cds.astrores.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -44,6 +43,7 @@ import org.xmlpull.v1.XmlPullParser;
  * 
  * @author Andre Schaaff 
  */
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public class AstroresSAXParser {
 
     // the pull parser engine
@@ -58,7 +58,7 @@ public class AstroresSAXParser {
      *            a file to parse
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer, String file) {
-	this(consumer, file, false);
+        this(consumer, file, false);
     }
 
     /**
@@ -72,21 +72,21 @@ public class AstroresSAXParser {
      *            boolean
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer, String file,
-	    boolean debug) {
+                             boolean debug) {
 
-	try {
-	    // new parser
-	    XmlPullParser parser = new KXmlParser();
+        try {
+            // new parser
+            XmlPullParser parser = new KXmlParser();
 
-	    engine = new AstroresSAXEngine(consumer, parser, file, debug);
+            engine = new AstroresSAXEngine(consumer, parser, file, debug);
 
-	    engine.parse(parser);
+            engine.parse(parser);
 
-	} catch (IOException e) {
-	    System.err.println("AstroresSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("AstroresSAXParser : " + f);
-	}
+        } catch (IOException e) {
+            System.err.println("AstroresSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("AstroresSAXParser : " + f);
+        }
     }
 
     /**
@@ -100,7 +100,7 @@ public class AstroresSAXParser {
      *            encoding (example : UTF-8)
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer, URL url, String enc) {
-	this(consumer, url, enc, false);
+        this(consumer, url, enc, false);
     }
 
     /**
@@ -116,21 +116,21 @@ public class AstroresSAXParser {
      *            boolean
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer, URL url, String enc,
-	    boolean debug) {
+                             boolean debug) {
 
-	try {
-	    // new parser
-	    KXmlParser parser = new KXmlParser();
+        try {
+            // new parser
+            KXmlParser parser = new KXmlParser();
 
-	    engine = new AstroresSAXEngine(consumer, parser, url, enc, debug);
+            engine = new AstroresSAXEngine(consumer, parser, url, enc, debug);
 
-	    engine.parse(parser);
+            engine.parse(parser);
 
-	} catch (IOException e) {
-	    System.err.println("AstroresSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("AstroresSAXParser : " + f);
-	}
+        } catch (IOException e) {
+            System.err.println("AstroresSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("AstroresSAXParser : " + f);
+        }
     }
 
     /**
@@ -144,8 +144,8 @@ public class AstroresSAXParser {
      *            encoding (example : UTF-8)
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer,
-	    InputStream instream, String enc) {
-	this(consumer, instream, enc, false);
+                             InputStream instream, String enc) {
+        this(consumer, instream, enc, false);
     }
 
     /**
@@ -161,21 +161,21 @@ public class AstroresSAXParser {
      *            boolean
      */
     public AstroresSAXParser(AstroresSAXConsumer consumer,
-	    InputStream instream, String enc, boolean debug) {
-	try {
-	    // new parser
-	    KXmlParser parser = new KXmlParser();
+                             InputStream instream, String enc, boolean debug) {
+        try {
+            // new parser
+            KXmlParser parser = new KXmlParser();
 
-	    engine = new AstroresSAXEngine(consumer, parser, instream, enc,
-		    debug);
+            engine = new AstroresSAXEngine(consumer, parser, instream, enc,
+                    debug);
 
-	    engine.parse(parser);
+            engine.parse(parser);
 
-	} catch (IOException e) {
-	    System.err.println("AstroresSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("AstroresSAXParser : " + f);
-	}
+        } catch (IOException e) {
+            System.err.println("AstroresSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("AstroresSAXParser : " + f);
+        }
     }
 
     /**
@@ -186,10 +186,10 @@ public class AstroresSAXParser {
      */
     public static void main(String[] argv) throws IOException {
 
-	if (argv.length == 0)
-	    System.err.println("Usage: java AstroresSAXParser <xml document>");
-	else {
-	    // new AstroresSAXParser(argv[0]);
-	}
+        if (argv.length == 0) {
+            System.err.println("Usage: java AstroresSAXParser <xml document>");
+        } else {
+            // new AstroresSAXParser(argv[0]);
+        }
     }
 }

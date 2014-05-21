@@ -21,14 +21,13 @@ package cds.savot.stax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-// parser
+// Stax parser
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
@@ -73,36 +72,38 @@ import javax.xml.stream.XMLStreamException;
  * <p>
  * It has been tested with Java 1.6 Stax implementation
  * but it is possible to use other Stax implementations
- * Designed to use with JSR-173 compliant (Streaming API for XML)
- * <p>
- * <p> remark L. Bourgès : equalsIgnoreCase() vs() equals as XML is case sensitive and VOTable specification says that clearly
  * </p>
+ * <p>
+ * Designed to use with JSR-173 compliant (Streaming API for XML)
+ * </p>
+ *
+ * <p> remark L. Bourgès : equalsIgnoreCase() vs() equals as XML is case sensitive and VOTable specification says that clearly</p>
  * 
  * @author Andre Schaaff
  */
-@SuppressWarnings({"deprecation"})
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public final class SavotStaxParser implements Markups {
+
     /** Logger associated to SavotStaxParser classes */
-    private final static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SavotStaxParser.class.getName()); 
-    /** flag to enable / disable usage of String.trim() on every value (enabled by default) */
-    private static final boolean doTrimValues = false;  
+    private final static java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SavotStaxParser.class.getName());
+    /** flag to enable / disable usage of String.trim() on every value (disabled by default) */
+    private static final boolean doTrimValues = false;
     /** flag to enable / disable line numbers (TR) */
-    private static final boolean doLineInfo = false; 
+    private static final boolean doLineInfo = false;
     /** flag to enable / disable statistics */
-    private static final boolean doStats = false; 
-     
-    /* parsing mode */
-    
+    private static final boolean doStats = false;
+
+    /* Parsing modes */
     /** FULL parsing mode: deprecated and replaced by FULLREAD */
-    public static final int FULL = 0; 
+    public static final int FULL = 0;
     /** FULLREAD parsing mode: all in memory */
-    public static final int FULLREAD = 0; 
+    public static final int FULLREAD = 0;
     /** SEQUENTIAL parsing mode: deprecated and replaced by RESOURCEREAD */
-    public static final int SEQUENTIAL = 1; 
+    public static final int SEQUENTIAL = 1;
     /** RESOURCEREAD parsing mode: resource per resource reading */
-    public static final int RESOURCEREAD = 1; 
+    public static final int RESOURCEREAD = 1;
     /** ROWREAD parsing mode: row per row reading */
-    public static final int ROWREAD = 2; 
+    public static final int ROWREAD = 2;
     /** default stack capacity = 4 slots */
     public final static int DEFAULT_STACK_CAPACITY = 4;
     /** empty TD instance */
@@ -112,43 +113,43 @@ public final class SavotStaxParser implements Markups {
 
     /* members */
     /** statistics dedicated to this parser */
-    private final SavotStatistics statistics; 
-    /** xml pull parser needed for sequential parsing */
-    private XMLStreamReader xmlParser = null;    
+    private final SavotStatistics statistics;
+    /** xml stream parser needed for sequential parsing */
+    private XMLStreamReader xmlParser = null;
     /** input stream used to close it anyway */
-    private InputStream inputStream = null;   
+    private InputStream inputStream = null;
     /** reader used to close it anyway */
-    private Reader reader = null; 	      
+    private Reader reader = null;
     /** debug mode */
-    private boolean debugMode = false;        
- 
+    private boolean debugMode = false;
+
     // data model objects
     private SavotVOTable _currentVOTable = new SavotVOTable();
     private SavotResource _currentResource = new SavotResource(); // RESOURCEREAD mode only
     private SavotTR _currentTR = new SavotTR(); 		  // ROWREAD mode only
-  
+
     // used for statistics
     private int resourceCounter = 0;
     private int tableCounter = 0;
     private int rowCounter = 0;
     private int dataCounter = 0;
-    
+
     /** used for recursive management */
-    private final ArrayList<VOTableTag> fatherTags = new ArrayList<VOTableTag>(DEFAULT_STACK_CAPACITY);  
+    private final ArrayList<VOTableTag> fatherTags = new ArrayList<VOTableTag>(DEFAULT_STACK_CAPACITY);
     /** used for recursive resources, LIFO mode */
     private final ArrayList<SavotResource> resourcestack = new ArrayList<SavotResource>(DEFAULT_STACK_CAPACITY);
     /** used for recursive options, LIFO mode */
-    private final ArrayList<SavotOption> optionstack = new ArrayList<SavotOption>(DEFAULT_STACK_CAPACITY); 
+    private final ArrayList<SavotOption> optionstack = new ArrayList<SavotOption>(DEFAULT_STACK_CAPACITY);
     /** used for recursives groups, LIFO mode */
-    private final ArrayList<SavotGroup> groupstack = new ArrayList<SavotGroup>(DEFAULT_STACK_CAPACITY); 
-    
+    private final ArrayList<SavotGroup> groupstack = new ArrayList<SavotGroup>(DEFAULT_STACK_CAPACITY);
+
     // for multi level resource
-    private int includedResource = 0; 
+    private int includedResource = 0;
     // for multi level option
-    private int includedOption = 0; 
+    private int includedOption = 0;
     // for multi level group
-    private int includedGroup = 0; 
-    
+    private int includedGroup = 0;
+
     private SavotTable currentTable = null;
     private SavotField currentField = null;
     private SavotFieldRef currentFieldRef = null;
@@ -169,7 +170,7 @@ public final class SavotStaxParser implements Markups {
     private SavotBinary currentBinary = null;
     private SavotFits currentFits = null;
     private SavotStream currentStream = null;
-    
+
     /**
      * Map containing object references which have an ID
      * So it is possible to retrieve such object reference
@@ -177,22 +178,21 @@ public final class SavotStaxParser implements Markups {
      * TODO: move such mapping into SavotVOTable (root element)
      */
     private final Map<String, Object> idRefLinks = new HashMap<String, Object>(256);
-    
+
     /**
-     * 
      * @return XMLInputFactory instance
      * @throws FactoryConfigurationError if the factory can not be loaded
      * @throws IllegalArgumentException if the property "javax.xml.stream.isCoalescing" is not supported
      */
     private static synchronized XMLInputFactory getXMLInputFactory() throws FactoryConfigurationError, IllegalArgumentException {
-	if (XML_INPUT_FACTORY == null) {
-	    final XMLInputFactory xmlif = XMLInputFactory.newInstance();
-	    xmlif.setProperty("javax.xml.stream.isCoalescing", true);
-	    XML_INPUT_FACTORY = xmlif;
-	}
-	return XML_INPUT_FACTORY;
+        if (XML_INPUT_FACTORY == null) {
+            final XMLInputFactory xmlif = XMLInputFactory.newInstance();
+            xmlif.setProperty("javax.xml.stream.isCoalescing", true);
+            XML_INPUT_FACTORY = xmlif;
+        }
+        return XML_INPUT_FACTORY;
     }
-    
+
     /**
      * Constructor
      * 
@@ -202,10 +202,10 @@ public final class SavotStaxParser implements Markups {
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
      * @throws IOException
-     * @throws XMLStreamException  
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final String file, final int mode) throws IOException, XMLStreamException {
-	this(file, mode, false);
+        this(file, mode, false);
     }
 
     /**
@@ -216,14 +216,12 @@ public final class SavotStaxParser implements Markups {
      * @param mode
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
-     * @param file
-     * @param mode
      * @param debug
      * @throws IOException 
-     * @throws XMLStreamException
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final String file, final int mode, final boolean debug) throws IOException, XMLStreamException {
-	this(file, mode, debug, new SavotStatistics());
+        this(file, mode, debug, new SavotStatistics());
     }
 
     /**
@@ -234,12 +232,10 @@ public final class SavotStaxParser implements Markups {
      * @param mode
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
-     * @param file
-     * @param mode
      * @param debug
      * @param stats
      * @throws IOException 
-     * @throws  XMLStreamException
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final String file, final int mode, final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {
 
@@ -252,8 +248,8 @@ public final class SavotStaxParser implements Markups {
         // set the input of the parser
         this.inputStream = getInputStream(new FileInputStream(file), compressed);
         this.xmlParser = getXMLInputFactory().createXMLStreamReader(this.inputStream, "UTF-8"); /* specify encoding ? */
-        
-        // fix marsing mode
+
+        // fix parsing mode:
         final int parsingType = parseMode(mode);
 
         // parse the stream in the given mode
@@ -261,6 +257,7 @@ public final class SavotStaxParser implements Markups {
             parse(parsingType);
         }
     }
+
     /**
      * Constructor
      * 
@@ -270,10 +267,10 @@ public final class SavotStaxParser implements Markups {
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
      * @throws IOException
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final URL url, final int mode) throws IOException, XMLStreamException {
-	this(url, mode, false);
+        this(url, mode, false);
     }
 
     /**
@@ -286,10 +283,10 @@ public final class SavotStaxParser implements Markups {
      *            ROWREAD (per ROW, for small memory size applications)
      * @param debug
      * @throws IOException
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final URL url, final int mode, final boolean debug) throws IOException, XMLStreamException {
-	this(url, mode, debug, new SavotStatistics());	
+        this(url, mode, debug, new SavotStatistics());
     }
 
     /**
@@ -302,21 +299,23 @@ public final class SavotStaxParser implements Markups {
      * @param debug
      * @param stats
      * @throws IOException
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
-    public SavotStaxParser(final URL url, final int mode, final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {	
+    public SavotStaxParser(final URL url, final int mode, final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {
 
         this.statistics = stats;
 
         enableDebug(debug);
 
         // TODO: detect compression
-        final boolean compressed = url.getPath().endsWith("gz"); 
+        final boolean compressed = url.getPath().endsWith("gz");
 
-        // set the input of the parser (with the given encoding)
+        // set the input of the parser
         this.inputStream = getInputStream(url.openStream(), compressed);
         this.xmlParser = getXMLInputFactory().createXMLStreamReader(this.inputStream); /* specify encoding ? */
+
         // fix parsing mode:
+
         final int parsingType = parseMode(mode);
 
         // parse the stream in the given mode
@@ -324,7 +323,7 @@ public final class SavotStaxParser implements Markups {
             parse(parsingType);
         }
     }
-    
+
     /**
      * Constructor
      * 
@@ -333,10 +332,11 @@ public final class SavotStaxParser implements Markups {
      * @param mode
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)  
-     * @throws IOException, XMLStreamException 
+     * @throws IOException
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final InputStream instream, final int mode) throws IOException, XMLStreamException {
-	this(instream, mode, false);
+        this(instream, mode, false);
     }
 
     /**
@@ -349,11 +349,11 @@ public final class SavotStaxParser implements Markups {
      *            ROWREAD (per ROW, for small memory size applications)
      * @param debug           
      * @throws IOException 
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final InputStream instream, final int mode, final boolean debug) throws IOException, XMLStreamException {
-	
-	this(instream, mode, debug, new SavotStatistics());
+
+        this(instream, mode, debug, new SavotStatistics());
     }
 
     /**
@@ -367,18 +367,20 @@ public final class SavotStaxParser implements Markups {
      * @param stats
      * 
      * @throws IOException 
-     * @throws XMLStreamException
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final InputStream instream, final int mode, final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {
 
-	this.statistics = stats;
+        this.statistics = stats;
 
         enableDebug(debug);
-            
+
         // set the input of the parser
         this.inputStream = getInputStream(instream, false);
         this.xmlParser = getXMLInputFactory().createXMLStreamReader(this.inputStream); /* specify encoding ? */
+
         // fix parsing mode:
+
         final int parsingType = parseMode(mode);
 
         // parse the stream in the given mode
@@ -394,17 +396,15 @@ public final class SavotStaxParser implements Markups {
      * @param mode
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
-     * @param reader reader to parse
-     * @param mode
      * 
      * @throws IOException 
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final Reader reader, final int mode) throws IOException, XMLStreamException {
-	
-	this(reader, mode, false);
+
+        this(reader, mode, false);
     }
-    
+
     /**
      * Constructor
      * 
@@ -413,38 +413,38 @@ public final class SavotStaxParser implements Markups {
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
      * @param debug
-     * @param reader reader to parse
      * 
      * @throws IOException 
-     * @throws XMLStreamException 
+     * @throws javax.xml.stream.XMLStreamException
      */
     public SavotStaxParser(final Reader reader, final int mode, final boolean debug) throws IOException, XMLStreamException {
-	
-	this(reader, mode, debug, new SavotStatistics());
+
+        this(reader, mode, debug, new SavotStatistics());
     }
 
     /**
      * Constructor
      * 
-     * @param instream stream to parse
+     * @param reader reader to parse
      * @param mode
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
      * @param debug
      * @param stats
-     * @throws Exception 
      * @throws IOException 
-     * @throws XMLStreamException
+     * @throws javax.xml.stream.XMLStreamException
      */
-    public SavotStaxParser(final Reader reader, final int mode, final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {
+    public SavotStaxParser(final Reader reader, final int mode,
+                           final boolean debug, final SavotStatistics stats) throws IOException, XMLStreamException {
 
-	this.statistics = stats;
+        this.statistics = stats;
 
         enableDebug(debug);
-            
+
         // set the input of the parser
         this.reader = reader;
         this.xmlParser = getXMLInputFactory().createXMLStreamReader(this.reader);
+
         // fix parsing mode:
         final int parsingType = parseMode(mode);
 
@@ -453,7 +453,7 @@ public final class SavotStaxParser implements Markups {
             parse(parsingType);
         }
     }
-    
+
     /**
      * Return the parsing type (FULLREAD, RESOURCEREAD or ROWREAD)
      * @param mode mode (FULL, SEQUENTIAL, FULLREAD, RESOURCEREAD or ROWREAD)
@@ -486,7 +486,7 @@ public final class SavotStaxParser implements Markups {
         if (compressed) {
             in = new GZIPInputStream(instream, bufferSize); // 512 bytes by default
         } else {
-            // no buffer as kXmlParser has a 8K read buffer too
+            // no buffer as Stax parser has a 8K read buffer too
             in = instream;
         }
         return in;
@@ -498,9 +498,9 @@ public final class SavotStaxParser implements Markups {
     public void close() {
         if (this.xmlParser != null) {
             try {
-                this.xmlParser.close();        	
+                this.xmlParser.close();
             } catch (XMLStreamException xse) {
-        	logger.log(Level.INFO, "Exception SavotStaxParser.close: ", xse);
+                logger.log(Level.INFO, "Exception SavotStaxParser.close: ", xse);
             }
             this.xmlParser = null;
         }
@@ -610,25 +610,23 @@ public final class SavotStaxParser implements Markups {
      *            FULLREAD (all in memory), RESOURCEREAD (per RESOURCE) or
      *            ROWREAD (per ROW, for small memory size applications)
      * @throws IOException
-     * @throws XMLStreamException
+     * @throws javax.xml.stream.XMLStreamException
      */
-    @SuppressWarnings({})
     public void parse(final int parsingType) throws IOException, XMLStreamException {
 
         final XMLStreamReader parser = this.xmlParser;
-       
+
         if (parser == null) {
             return;
         }
 
         if (parsingType != ROWREAD && parsingType != RESOURCEREAD) {
-            
             // for multi level resource
-            includedResource = 0; 
+            includedResource = 0;
             // for multi level option
-            includedOption = 0;   
+            includedOption = 0;
             // for multi level group
-            includedGroup = 0;    
+            includedGroup = 0;
 
             currentTable = new SavotTable();
             currentField = new SavotField();
@@ -657,7 +655,7 @@ public final class SavotStaxParser implements Markups {
         int rowCount = rowCounter;
         int dataCount = dataCounter;
         int lineNumber = 0;
-        
+
         try {
             // local copy for performance:
             final boolean trace = debugMode;
@@ -667,7 +665,7 @@ public final class SavotStaxParser implements Markups {
 
             // used for RESOURCEREAD parsing
             boolean resourceComplete = false;
-            
+
             // used for ROWREAD parsing
             boolean TRComplete = false;
 
@@ -677,7 +675,7 @@ public final class SavotStaxParser implements Markups {
             SavotTD currentTD = null;
 
             // name from parser.getName and current markup
-            String name; 
+            String name, prefix;
             VOTableTag currentMarkup = VOTableTag.UNDEFINED;
             String attrName, attrValue;
             String textValue;
@@ -694,10 +692,10 @@ public final class SavotStaxParser implements Markups {
             // System.out.println("ENTREE DANS PARSER");
             // while the end of the document is not reach
             while (eventType != XMLEvent.END_DOCUMENT) {
-        	/* custom line number as not provided by Stax parser */
-        	lineNumber++; 
-                
-        	// treatment depending on event type
+                /* custom line number as not provided by Stax parser */
+                lineNumber++;
+
+                // treatment depending on event type
                 switch (eventType) {
 
                     // if a start tag is reach
@@ -708,7 +706,7 @@ public final class SavotStaxParser implements Markups {
                         name = parser.getLocalName();
 
                         if (name != null) {
-                            if (trace) { 
+                            if (trace) {
                                 System.err.println("Name ---> " + name);
                             }
                             // avoid parsing name twice:
@@ -749,28 +747,58 @@ public final class SavotStaxParser implements Markups {
                                     break;
 
                                 case VOTABLE:
-                                    // partie à revoir pour permettre la prise
-                                    // en compte de plusieurs namespaces
+                                    // Get namespaces from Stax:
+                                    counter = parser.getNamespaceCount();
+                                    if (counter != 0) {
+                                        String uri;
+                                        for (i = 0; i < parser.getNamespaceCount(); i++) {
+                                            prefix = parser.getNamespacePrefix(i);
+                                            uri = parser.getNamespaceURI(i);
+                                            if (prefix == null) {
+                                                // xmlns attribute:
+                                                if (trace) {
+                                                    System.err.println("xmlns='" + uri + "'");
+                                                }
+                                                _currentVOTable.setXmlns(uri);
+                                            } else {
+                                                if (trace) {
+                                                    System.err.println("xmlns:" + prefix + "='" + uri + "'");
+                                                }
+                                                // TODO: handle multiple namespaces:
+                                                if (prefix.equalsIgnoreCase(XSI)) {
+                                                    _currentVOTable.setXmlnsxsi(uri);
+                                                }
+                                            }
+                                        }
+                                    }
 
                                     counter = parser.getAttributeCount();
                                     if (counter != 0) {
                                         for (i = 0; i < counter; i++) {
                                             attrValue = parser.getAttributeValue(i);
                                             if (attrValue.length() != 0) {
+                                                if (trace) {
+                                                    System.err.println("VOTABLE attribute:" + parser.getAttributeName(i) + "='" + attrValue + "'");
+                                                }
                                                 attrName = parser.getAttributeLocalName(i);
                                                 if (attrName.equalsIgnoreCase(VERSION)) {
                                                     _currentVOTable.setVersion(attrValue);
-                                                } else if (attrName.equalsIgnoreCase(XMLNSXSI)) {
-                                                    _currentVOTable.setXmlnsxsi(attrValue);
-                                                } else if (attrName.equalsIgnoreCase(XSINOSCHEMA)) {
-                                                    _currentVOTable.setXsinoschema(attrValue);
-                                                } else if (attrName.equalsIgnoreCase(XSISCHEMA)) {
-                                                    _currentVOTable.setXsischema(attrValue);
-                                                } else if (attrName.equalsIgnoreCase(XMLNS)) {
-                                                    _currentVOTable.setXmlns(attrValue);
                                                 } else if (attrName.equalsIgnoreCase(ID)) {
                                                     _currentVOTable.setId(attrValue);
                                                     idRefLinks.put(attrValue, _currentVOTable);
+                                                } else {
+                                                    prefix = parser.getAttributePrefix(i);
+                                                    if (trace) {
+                                                        System.err.println("VOTABLE attribute:" + prefix + ":" + attrName);
+                                                    }
+                                                    /* TODO: use uri because prefix can be changed ? */
+                                                    if (XSI.equalsIgnoreCase(prefix)) {
+                                                        if (attrName.equalsIgnoreCase(XSI_NOSCHEMA)) {
+                                                            _currentVOTable.setXsinoschema(attrValue);
+                                                        } else if (attrName.equalsIgnoreCase(XSI_SCHEMA)) {
+                                                            _currentVOTable.setXsischema(attrValue);
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -789,7 +817,7 @@ public final class SavotStaxParser implements Markups {
                                     } else if (trace) {
                                         System.err.println("RESOURCE - not included");
                                     }
-                                    
+
                                     includedResource++;
 
                                     // for statistics only
@@ -827,7 +855,7 @@ public final class SavotStaxParser implements Markups {
                                     break;
 
                                 case TABLE:
-                                    stats.iTablesInc(); 
+                                    stats.iTablesInc();
 
                                     currentTable = new SavotTable();
 
@@ -1202,7 +1230,7 @@ public final class SavotStaxParser implements Markups {
                                     } else if (trace) {
                                         System.err.println("OPTION - not included");
                                     }
-                                    
+
                                     includedOption++;
 
                                     currentOption = new SavotOption();
@@ -1311,13 +1339,13 @@ public final class SavotStaxParser implements Markups {
                             if (trace) {
                                 System.err.println("End ---> " + name);
                             }
-                            
+
                             tag = VOTableTag.parseTag(name);
 
                             if (trace) {
                                 System.err.println(tag + " end");
                             }
-                            
+
                             // use most probable tags FIRST (performance) i.e TD / TR first :
                             switch (tag) {
                                 case TD:
@@ -1394,13 +1422,13 @@ public final class SavotStaxParser implements Markups {
                                     break;
 
                                 case FIELD:
-                                    if (trace) { 
+                                    if (trace) {
                                         System.err.println("FIELD from father = " + lastFather());
                                     }
-                                    
+
                                     if (lastFather() == VOTableTag.TABLE) {
                                         currentTable.getFields().addItem(currentField);
-                                        if (trace) { 
+                                        if (trace) {
                                             System.err.println("FIELD from TABLE father = " + father);
                                         }
                                     }
@@ -1428,7 +1456,7 @@ public final class SavotStaxParser implements Markups {
                                         if (parsingType == FULL) {
                                             _currentVOTable.getResources().addItem(_currentResource);
                                         }
-                                        if (trace) { 
+                                        if (trace) {
                                             System.err.println(">>>>>>>> RESOURCE COMPLETED");
                                         }
                                         resourceComplete = true;
@@ -1443,13 +1471,13 @@ public final class SavotStaxParser implements Markups {
                                         currentOption.getOptions().addItem(tmp);
                                         includedOption--;
                                     } else {
-                                	if (lastFather() == VOTableTag.VALUES) {
-                                	    currentValues.getOptions().addItem(currentOption);
+                                        if (lastFather() == VOTableTag.VALUES) {
+                                            currentValues.getOptions().addItem(currentOption);
                                             if (trace) {
-                                        	System.err.println("OPTION from VALUES father = " + father);
+                                                System.err.println("OPTION from VALUES father = " + father);
                                             }
                                             includedOption--;
-                                	}
+                                        }
                                     }
                                     break;
 
@@ -1460,13 +1488,13 @@ public final class SavotStaxParser implements Markups {
                                         currentGroup.getGroups().addItem(tmp);
                                         includedGroup--;
                                     } else {
-                                	if (lastFather() == VOTableTag.TABLE) {
-                                	    currentTable.getGroups().addItem(currentGroup);
+                                        if (lastFather() == VOTableTag.TABLE) {
+                                            currentTable.getGroups().addItem(currentGroup);
                                             if (trace) {
-                                        	System.err.println("GROUP from TABLE father = " + father);
+                                                System.err.println("GROUP from TABLE father = " + father);
                                             }
                                             includedGroup--;
-                                	}
+                                        }
                                     }
                                     break;
 
@@ -1488,19 +1516,19 @@ public final class SavotStaxParser implements Markups {
                                         case DEFINITIONS:
                                             // deprecated since VOTable 1.1
                                             currentDefinitions.getCoosys().addItem(currentCoosys);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("COOSYS from DEFINITIONS father = " + father);
                                             }
                                             break;
                                         case RESOURCE:
                                             _currentResource.getCoosys().addItem(currentCoosys);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("COOSYS from RESOURCE father = " + father);
                                             }
                                             break;
                                         case VOTABLE:
                                             _currentVOTable.getCoosys().addItem(currentCoosys);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("COOSYS from VOTABLE father = " + father);
                                             }
                                             break;
@@ -1514,13 +1542,13 @@ public final class SavotStaxParser implements Markups {
                                         case DEFINITIONS:
                                             // deprecated since VOTable 1.1
                                             currentDefinitions.getParams().addItem(currentParam);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("PARAM from DEFINITIONS father = " + father);
                                             }
                                             break;
                                         case RESOURCE:
                                             _currentResource.getParams().addItem(currentParam);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("PARAM from RESOURCE father = " + father);
                                             }
                                             break;
@@ -1532,13 +1560,13 @@ public final class SavotStaxParser implements Markups {
                                             break;
                                         case GROUP:
                                             currentGroup.getParams().addItem(currentParam);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("PARAM from GROUP father = " + father);
                                             }
                                             break;
                                         case VOTABLE:
                                             _currentVOTable.getParams().addItem(currentParam);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("PARAM from VOTABLE father = " + father);
                                             }
                                             break;
@@ -1560,25 +1588,25 @@ public final class SavotStaxParser implements Markups {
                                     switch (lastFather()) {
                                         case RESOURCE:
                                             _currentResource.getLinks().addItem(currentLink);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("LINK from RESOURCE father = " + father);
                                             }
                                             break;
                                         case TABLE:
                                             currentTable.getLinks().addItem(currentLink);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("LINK from TABLE father = " + father);
                                             }
                                             break;
                                         case FIELD:
                                             currentField.getLinks().addItem(currentLink);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("LINK from FIELD father = " + father);
                                             }
                                             break;
                                         case PARAM:
                                             currentParam.getLinks().addItem(currentLink);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("LINK from PARAM father = " + father);
                                             }
                                             break;
@@ -1591,13 +1619,13 @@ public final class SavotStaxParser implements Markups {
                                     switch (lastFather()) {
                                         case PARAM:
                                             currentParam.setValues(currentValues);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("VALUES from PARAM father = " + father + " ID : " + currentValues.getId());
                                             }
                                             break;
                                         case FIELD:
                                             currentField.setValues(currentValues);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("VALUES from FIELD father = " + father + " ID : " + currentValues.getId());
                                             }
                                             break;
@@ -1618,20 +1646,19 @@ public final class SavotStaxParser implements Markups {
                                     switch (lastFather()) {
                                         case BINARY:
                                             currentBinary.setStream(currentStream);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("STREAM from BINARY father = " + father);
                                             }
                                             break;
                                         case FITS:
                                             currentFits.setStream(currentStream);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("STREAM from FITS father = " + father);
                                             }
                                             break;
                                         default:
                                     }
                                     break;
-
 
                                 case BINARY:
                                     currentData.setBinary(currentBinary);
@@ -1645,7 +1672,7 @@ public final class SavotStaxParser implements Markups {
                                     if (trace) {
                                         System.err.println("INFO father = " + father);
                                     }
-                                    
+
                                     // INFO - several fathers are possible
                                     switch (lastFather()) {
                                         case VOTABLE:
@@ -1655,7 +1682,7 @@ public final class SavotStaxParser implements Markups {
                                             } else {
                                                 _currentVOTable.getInfos().addItem(currentInfo);
                                             }
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("INFO from VOTABLE father = " + father);
                                             }
                                             break;
@@ -1668,14 +1695,14 @@ public final class SavotStaxParser implements Markups {
                                             } else {
                                                 _currentResource.getInfos().addItem(currentInfo);
                                             }
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("INFO from RESOURCE father = " + father);
                                             }
                                             break;
                                         case TABLE:
                                             // since VOTable 1.2
                                             currentTable.getInfosAtEnd().addItem(currentInfo);
-                                            if (trace) { 
+                                            if (trace) {
                                                 System.err.println("INFO from TABLE father = " + father);
                                             }
                                             break;
@@ -1716,7 +1743,7 @@ public final class SavotStaxParser implements Markups {
                                 if (trace) {
                                     System.err.println(currentMarkup + " : " + textValue);
                                 }
-                                
+
                                 // use most probable tags FIRST (performance) i.e TD / TR first :
                                 switch (currentMarkup) {
                                     case TD:
@@ -1790,7 +1817,7 @@ public final class SavotStaxParser implements Markups {
                         if (trace) {
                             System.err.println("> FATHER, add : " + name);
                         }
-                        
+
                         tag = VOTableTag.parseTag(name);
 
                         father.add(tag);
@@ -1806,7 +1833,7 @@ public final class SavotStaxParser implements Markups {
                             if (trace) {
                                 System.err.println("> FATHER, remove : " + name);
                             }
-                            
+
                             father.remove(father.size() - 1);
 
                         } else if (trace) {
@@ -1815,7 +1842,6 @@ public final class SavotStaxParser implements Markups {
                         }
                         break;
 
-
                     // if an end document is reached:
                     case XMLEvent.END_DOCUMENT:
                         operation = "END_DOCUMENT";
@@ -1823,7 +1849,7 @@ public final class SavotStaxParser implements Markups {
                         if (trace) {
                             System.err.println("Document end reached!");
                         }
-                        
+
                         // Anyway:
                         if (parsingType == ROWREAD) {
                             // terminate now (return TR null) to indicate that the complete document is done:
@@ -1841,7 +1867,7 @@ public final class SavotStaxParser implements Markups {
 
                 if (TRComplete && (parsingType == ROWREAD)) {
                     eventType = XMLEvent.END_DOCUMENT;
-                    if (trace) { 
+                    if (trace) {
                         System.err.println(">>>>>>>>>>>>>>> ROWREAD case : TR end");
                     }
                 } else if (resourceComplete && (parsingType == RESOURCEREAD)) {
@@ -2085,12 +2111,12 @@ public final class SavotStaxParser implements Markups {
     }
 
     /**
-     * Returns the stats
+     * Returns the statistics
      * 
      * @return statistics
      */
     public SavotStatistics getStatistics() {
-	return statistics;
+        return statistics;
     }
 
     /**
@@ -2099,7 +2125,7 @@ public final class SavotStaxParser implements Markups {
      * @return String
      */
     public String getVersion() {
-	return SavotStaxParser.SAVOTPARSER;
+        return SavotStaxParser.SAVOTPARSER;
     }
 
     /**
@@ -2107,12 +2133,12 @@ public final class SavotStaxParser implements Markups {
      * 
      */
     public void sequentialTester() {
-	SavotResource currentResource;
-	do {
-	    currentResource = getNextResource();
-	} while (currentResource != null);
-    }    
-    
+        SavotResource currentResource;
+        do {
+            currentResource = getNextResource();
+        } while (currentResource != null);
+    }
+
     /**
      * Main
      * 
@@ -2120,10 +2146,10 @@ public final class SavotStaxParser implements Markups {
      * @throws Exception 
      */
     public static void main(String[] argv) throws Exception {
-	if (argv.length == 0) {
-	    System.out.println("Usage: java SavotPullParser document");
-	} else {
-	    new SavotStaxParser(argv[0], SavotStaxParser.FULL);
-	}
+        if (argv.length == 0) {
+            System.out.println("Usage: java SavotPullParser document");
+        } else {
+            new SavotStaxParser(argv[0], SavotStaxParser.FULL);
+        }
     }
 }

@@ -21,7 +21,6 @@ package cds.savot.common;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * This enum contains all tags present in VOTable specification
  * @author Laurent Bourges

@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Row element
@@ -62,7 +61,8 @@ public final class SavotTR extends SavotBase {
             if ((index = line.indexOf(sv)) >= 0) {
                 token = line.substring(0, index);
                 line = line.substring(index + 1);
-            } else { // last element
+            } else {
+                // last element
                 token = line;
             }
             SavotTD td = new SavotTD();

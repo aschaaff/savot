@@ -21,7 +21,6 @@ package cds.savot.writer;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import cds.savot.model.CoosysSet;
 import cds.savot.model.FieldRefSet;
 import cds.savot.model.FieldSet;
@@ -80,7 +79,7 @@ import java.util.zip.GZIPOutputStream;
  *          step, the previous method is available too (writing of a whole
  *          document) (kickoff 31 May 02)
  */
-@SuppressWarnings({"deprecation"})
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public final class SavotWriter {
 
     private static final String tdempty = "<TD/>";
@@ -557,7 +556,7 @@ public final class SavotWriter {
                 if (param.getArraySize().length() != 0) {
                     w.append(" arraysize=\"").append(encodeAttribute(param.getArraySize())).append('"');
                 }
-                
+
                 if (param.getPrecision().length() != 0) {
                     w.append(" precision=\"").append(encodeAttribute(param.getPrecision())).append('"');
                 }
@@ -583,7 +582,7 @@ public final class SavotWriter {
                     w.append(" utype=\"").append(encodeAttribute(param.getUtype())).append('"');
                 }
 
-                // mandatory value
+                // Mandatory value:
                 w.append(" value=\"").append(encodeAttribute(param.getValue())).append('"');
 
                 if (param.getUnit().length() != 0) {
@@ -827,11 +826,11 @@ public final class SavotWriter {
             writeComment(field.getAbove());
 
             w.write("\n<FIELD");
-            
+
             if (field.getName().length() != 0) {
                 w.append(" name=\"").append(encodeAttribute(field.getName())).append('"');
             }
-            
+
             if (field.getId().length() != 0) {
                 w.append(" ID=\"").append(encodeAttribute(field.getId())).append('"');
             }
@@ -1426,18 +1425,20 @@ public final class SavotWriter {
         for (int i = 0, tdLen = tds.size(); i < tdLen; i++) {
             td = tds.get(i);
 
-            // use raw values to test null values efficiently
+            // use raw values to test null values efficiently:
             v = td.getRawContent();
+
             if (v != null) {
-        	// <TD>
+                // <TD>
                 w.write(tdbegin);
-                
+
                 w.write((doEncode) ? encodeElement(v) : v);
-                
+
                 // </TD>
                 w.write(tdend);
+
             } else {
-        	w.write(tdempty);
+                w.write(tdempty);
             }
         }
         // </TR>

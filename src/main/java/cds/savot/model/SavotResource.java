@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Resource element
@@ -80,22 +79,22 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * init a SavotResource object
      */
     public void init() {
-	name = null;
-	id = null;
-	type = null;
-	utype = null;
-	description = null;
-	
-	coosys = null;
-	groups = null;
-	params = null;
-	infos = null;
-	links = null;
-	tables = null;
-	resources = null;
-	infosAtEnd = null;
+        name = null;
+        id = null;
+        type = null;
+        utype = null;
+        description = null;
+
+        coosys = null;
+        groups = null;
+        params = null;
+        infos = null;
+        links = null;
+        tables = null;
+        resources = null;
+        infosAtEnd = null;
     }
-    
+
     /**
      * Set the description
      * 
@@ -103,7 +102,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      *            String
      */
     public void setDescription(final String description) {
-	this.description = description;
+        this.description = description;
     }
 
     /**
@@ -112,7 +111,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a String
      */
     public String getDescription() {
-	return str(description);
+        return str(description);
     }
 
     /**
@@ -122,7 +121,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param coosys
      */
     public void setCoosys(final CoosysSet coosys) {
-	this.coosys = coosys;
+        this.coosys = coosys;
     }
 
     /**
@@ -132,10 +131,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a CoosysSet object
      */
     public CoosysSet getCoosys() {
-	if (coosys == null) {
-	    coosys = new CoosysSet();
-	}
-	return coosys;
+        if (coosys == null) {
+            coosys = new CoosysSet();
+        }
+        return coosys;
     }
 
     /**
@@ -145,7 +144,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param groups
      */
     public void setGroups(final GroupSet groups) {
-	this.groups = groups;
+        this.groups = groups;
     }
 
     /**
@@ -155,10 +154,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return GroupSet
      */
     public GroupSet getGroups() {
-	if (groups == null) {
-	    groups = new GroupSet();
-	}
-	return groups;
+        if (groups == null) {
+            groups = new GroupSet();
+        }
+        return groups;
     }
 
     /**
@@ -167,7 +166,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param infos
      */
     public void setInfos(final InfoSet infos) {
-	this.infos = infos;
+        this.infos = infos;
     }
 
     /**
@@ -176,10 +175,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a InfoSet object
      */
     public InfoSet getInfos() {
-	if (infos == null) {
-	    infos = new InfoSet();
-	}
-	return infos;
+        if (infos == null) {
+            infos = new InfoSet();
+        }
+        return infos;
     }
 
     /**
@@ -188,7 +187,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param params
      */
     public void setParams(final ParamSet params) {
-	this.params = params;
+        this.params = params;
     }
 
     /**
@@ -197,10 +196,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a ParamSet object
      */
     public ParamSet getParams() {
-	if (params == null) {
-	    params = new ParamSet();
-	}
-	return params;
+        if (params == null) {
+            params = new ParamSet();
+        }
+        return params;
     }
 
     /**
@@ -209,7 +208,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param links
      */
     public void setLinks(final LinkSet links) {
-	this.links = links;
+        this.links = links;
     }
 
     /**
@@ -218,10 +217,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a LinkSet object
      */
     public LinkSet getLinks() {
-	if (links == null) {
-	    links = new LinkSet();
-	}
-	return links;
+        if (links == null) {
+            links = new LinkSet();
+        }
+        return links;
     }
 
     /**
@@ -230,7 +229,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param tables
      */
     public void setTables(final TableSet tables) {
-	this.tables = tables;
+        this.tables = tables;
     }
 
     /**
@@ -239,10 +238,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a TableSet object
      */
     public TableSet getTables() {
-	if (tables == null) {
-	    tables = new TableSet();
-	}
-	return tables;
+        if (tables == null) {
+            tables = new TableSet();
+        }
+        return tables;
     }
 
     /**
@@ -251,7 +250,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param resources
      */
     public void setResources(final ResourceSet resources) {
-	this.resources = resources;
+        this.resources = resources;
     }
 
     /**
@@ -260,10 +259,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a ResourceSet object
      */
     public ResourceSet getResources() {
-	if (resources == null) {
-	    resources = new ResourceSet();
-	}
-	return resources;
+        if (resources == null) {
+            resources = new ResourceSet();
+        }
+        return resources;
     }
 
     /**
@@ -273,7 +272,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @since VOTable 1.2
      */
     public void setInfosAtEnd(final InfoSet infosAtEnd) {
-	this.infosAtEnd = infosAtEnd;
+        this.infosAtEnd = infosAtEnd;
     }
 
     /**
@@ -283,10 +282,10 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @since VOTable 1.2
      */
     public InfoSet getInfosAtEnd() {
-	if (infosAtEnd == null) {
-	    infosAtEnd = new InfoSet();
-	}
-	return infosAtEnd;
+        if (infosAtEnd == null) {
+            infosAtEnd = new InfoSet();
+        }
+        return infosAtEnd;
     }
 
     /**
@@ -295,8 +294,9 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param name
      *            String
      */
+    @Override
     public void setName(final String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -304,8 +304,9 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * 
      * @return a String
      */
+    @Override
     public String getName() {
-	return str(name);
+        return str(name);
     }
 
     /**
@@ -314,8 +315,9 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @param id
      *            String
      */
+    @Override
     public void setId(final String id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
@@ -323,8 +325,9 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * 
      * @return String
      */
+    @Override
     public String getId() {
-	return str(id);
+        return str(id);
     }
 
     /**
@@ -334,7 +337,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      *            String (results, meta)
      */
     public void setType(final String type) {
-	this.type = type;
+        this.type = type;
     }
 
     /**
@@ -343,7 +346,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a String
      */
     public String getType() {
-	return str(type);
+        return str(type);
     }
 
     /**
@@ -353,7 +356,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      *            String
      */
     public void setUtype(final String utype) {
-	this.utype = utype;
+        this.utype = utype;
     }
 
     /**
@@ -362,7 +365,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return a String
      */
     public String getUtype() {
-	return str(utype);
+        return str(utype);
     }
 
     /**
@@ -372,7 +375,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return int
      */
     public int getTRCount(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getData().getTableData().getTRs().getItemCount();
+        return getTables().getItemAt(tableIndex).getData().getTableData().getTRs().getItemCount();
     }
 
     /**
@@ -382,7 +385,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return TRSet
      */
     public TRSet getTRSet(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getData().getTableData().getTRs();
+        return getTables().getItemAt(tableIndex).getData().getTableData().getTRs();
     }
 
     /**
@@ -394,7 +397,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return SavotTR
      */
     public SavotTR getTR(final int tableIndex, final int rowIndex) {
-	    return getTables().getItemAt(tableIndex).getData().getTableData().getTRs().getItemAt(rowIndex);
+        return getTables().getItemAt(tableIndex).getData().getTableData().getTRs().getItemAt(rowIndex);
     }
 
     /**
@@ -404,7 +407,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return int
      */
     public int getTableCount() {
-	return getTables().getItemCount();
+        return getTables().getItemCount();
     }
 
     /**
@@ -414,7 +417,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return FieldSet
      */
     public FieldSet getFieldSet(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getFields();
+        return getTables().getItemAt(tableIndex).getFields();
     }
 
     /**
@@ -424,7 +427,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return LinkSet
      */
     public LinkSet getLinkSet(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getLinks();
+        return getTables().getItemAt(tableIndex).getLinks();
     }
 
     /**
@@ -434,7 +437,7 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return String
      */
     public String getDescription(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getDescription();
+        return getTables().getItemAt(tableIndex).getDescription();
     }
 
     /**
@@ -444,6 +447,6 @@ public final class SavotResource extends MarkupComment implements IDSupport, Nam
      * @return SavotData
      */
     public SavotData getData(final int tableIndex) {
-	return getTables().getItemAt(tableIndex).getData();
+        return getTables().getItemAt(tableIndex).getData();
     }
 }

@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

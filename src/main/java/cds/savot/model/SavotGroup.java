@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Group element
@@ -29,7 +28,7 @@ package cds.savot.model;
  * 
  * @author Andre Schaaff
  */
-public final class SavotGroup extends MarkupComment implements IDSupport, NameSupport {
+public final class SavotGroup extends MarkupComment implements IDSupport, NameSupport, RefSupport {
 
     // ID attribute
     private String id = null;
@@ -63,6 +62,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @param id
      */
+    @Override
     public void setId(final String id) {
         this.id = id;
     }
@@ -72,6 +72,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @return String
      */
+    @Override
     public String getId() {
         return str(id);
     }
@@ -81,6 +82,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @param name
      */
+    @Override
     public void setName(final String name) {
         this.name = name;
     }
@@ -90,6 +92,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @return String
      */
+    @Override
     public String getName() {
         return str(name);
     }
@@ -99,6 +102,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @param ref
      */
+    @Override
     public void setRef(final String ref) {
         this.ref = ref;
     }
@@ -108,6 +112,7 @@ public final class SavotGroup extends MarkupComment implements IDSupport, NameSu
      * 
      * @return String
      */
+    @Override
     public String getRef() {
         return str(ref);
     }

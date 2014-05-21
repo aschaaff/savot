@@ -21,7 +21,6 @@ package cds.savot.sax;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -37,6 +36,7 @@ import org.xmlpull.v1.XmlPullParser;
  * 
  * @author Andre Schaaff
  */
+@SuppressWarnings({"deprecation", "UseOfSystemOutOrSystemErr"})
 public final class SavotSAXParser {
 
     // the parser engine
@@ -50,7 +50,7 @@ public final class SavotSAXParser {
      *            a file to parse
      */
     public SavotSAXParser(SavotSAXConsumer consumer, String file) {
-	this(consumer, file, false);
+        this(consumer, file, false);
     }
 
     /**
@@ -65,20 +65,19 @@ public final class SavotSAXParser {
      */
     public SavotSAXParser(SavotSAXConsumer consumer, String file, boolean debug) {
 
-	try {
-	    // new parser
-	    XmlPullParser parser = new KXmlParser();
+        try {
+            // new parser
+            XmlPullParser parser = new KXmlParser();
 
-	    engine = new SavotSAXEngine(consumer, parser, file, debug);
+            engine = new SavotSAXEngine(consumer, parser, file, debug);
 
-	    // parse the stream
-	    // engine.parse(parser);
-
-	    // } catch (IOException e){
-	    // System.err.println("SavotSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("SavotSAXParser : " + f);
-	}
+            // parse the stream
+            // engine.parse(parser);
+            // } catch (IOException e){
+            // System.err.println("SavotSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("SavotSAXParser : " + f);
+        }
     }
 
     /**
@@ -92,7 +91,7 @@ public final class SavotSAXParser {
      *            encoding (example : UTF-8)
      */
     public SavotSAXParser(SavotSAXConsumer consumer, URL url, String enc) {
-	this(consumer, url, enc, false);
+        this(consumer, url, enc, false);
     }
 
     /**
@@ -108,22 +107,21 @@ public final class SavotSAXParser {
      *            boolean
      */
     public SavotSAXParser(SavotSAXConsumer consumer, URL url, String enc,
-	    boolean debug) {
+                          boolean debug) {
 
-	try {
-	    // new parser
-	    KXmlParser parser = new KXmlParser();
+        try {
+            // new parser
+            KXmlParser parser = new KXmlParser();
 
-	    engine = new SavotSAXEngine(consumer, parser, url, enc, debug);
+            engine = new SavotSAXEngine(consumer, parser, url, enc, debug);
 
-	    // parse the stream
-	    // engine.parse(parser);
-
-	    // } catch (IOException e){
-	    // System.err.println("SavotSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("SavotSAXParser : " + f);
-	}
+            // parse the stream
+            // engine.parse(parser);
+            // } catch (IOException e){
+            // System.err.println("SavotSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("SavotSAXParser : " + f);
+        }
     }
 
     /**
@@ -137,8 +135,8 @@ public final class SavotSAXParser {
      *            encoding (example : UTF-8)
      */
     public SavotSAXParser(SavotSAXConsumer consumer, InputStream instream,
-	    String enc) {
-	this(consumer, instream, enc, false);
+                          String enc) {
+        this(consumer, instream, enc, false);
     }
 
     /**
@@ -154,21 +152,20 @@ public final class SavotSAXParser {
      *            boolean
      */
     public SavotSAXParser(SavotSAXConsumer consumer, InputStream instream,
-	    String enc, boolean debug) {
-	try {
-	    // new parser
-	    KXmlParser parser = new KXmlParser();
+                          String enc, boolean debug) {
+        try {
+            // new parser
+            KXmlParser parser = new KXmlParser();
 
-	    engine = new SavotSAXEngine(consumer, parser, instream, enc, debug);
+            engine = new SavotSAXEngine(consumer, parser, instream, enc, debug);
 
-	    // parse the stream
-	    // engine.parse(parser);
-
-	    // } catch (IOException e){
-	    // System.err.println("SavotSAXParser : " + e);
-	} catch (Exception f) {
-	    System.err.println("SavotSAXParser : " + f);
-	}
+            // parse the stream
+            // engine.parse(parser);
+            // } catch (IOException e){
+            // System.err.println("SavotSAXParser : " + e);
+        } catch (Exception f) {
+            System.err.println("SavotSAXParser : " + f);
+        }
     }
 
     /**
@@ -177,7 +174,7 @@ public final class SavotSAXParser {
      * @return String
      */
     public String getVersion() {
-	return SavotSAXEngine.SAVOTPARSER;
+        return SavotSAXEngine.SAVOTPARSER;
     }
 
     /**
@@ -187,7 +184,7 @@ public final class SavotSAXParser {
      *            boolean
      */
     public void enableDebug(boolean debug) {
-	engine.enableDebug(debug);
+        engine.enableDebug(debug);
     }
 
     /**
@@ -197,11 +194,10 @@ public final class SavotSAXParser {
      * @throws IOException
      */
     public static void main(String[] argv) throws IOException {
-	if (argv.length == 0) {
-	    System.out.println("Usage: java SavotSAXParser <xml document>");
-	}
-	else {
-	    // new SavotSAXParser(consumer, argv[0]);
-	}
+        if (argv.length == 0) {
+            System.out.println("Usage: java SavotSAXParser <xml document>");
+        } else {
+            // new SavotSAXParser(consumer, argv[0]);
+        }
     }
 }

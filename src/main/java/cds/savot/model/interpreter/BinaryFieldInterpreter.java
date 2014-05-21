@@ -21,7 +21,6 @@ package cds.savot.model.interpreter;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 import cds.savot.model.SavotField;
 import java.io.IOException;
 import java.io.InputStream;
@@ -562,7 +561,7 @@ public abstract class BinaryFieldInterpreter<T> {
      */
     public static final String arraySizeToString(final int[] arraysize) {
         /* TODO: define initial capacity or recycle StringBuilder instances */
-	StringBuilder str = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         for (int i = 0; i < arraysize.length; i++) {
             if (i > 0) {
                 str.append('x');

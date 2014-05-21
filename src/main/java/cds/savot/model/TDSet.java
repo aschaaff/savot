@@ -21,7 +21,6 @@ package cds.savot.model;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (JMMC)
-
 /**
  * <p>
  * Set of TD elements
@@ -51,7 +50,7 @@ public final class TDSet extends SavotSet<SavotTD> {
         }
         return td.getContent();
     }
-    
+
     /**
      * Get the raw content at the TDIndex position of the TDSet (maybe null)
      * 
@@ -59,10 +58,10 @@ public final class TDSet extends SavotSet<SavotTD> {
      * @return a String or null
      */
     public String getRawContent(final int TDIndex) {
-	final SavotTD td = getItemAt(TDIndex);
-	if (td == null) {
-	    return null;
-	}
-	return td.getRawContent();
+        final SavotTD td = getItemAt(TDIndex);
+        if (td == null) {
+            return null;
+        }
+        return td.getRawContent();
     }
 }

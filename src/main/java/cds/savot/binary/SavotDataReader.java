@@ -21,7 +21,6 @@ package cds.savot.binary;
 //SAVOT - Simple Access to VOTable - Parser
 //
 //Author, Co-Author:  Andre Schaaff (CDS), Laurent Bourges (LAOG)
-
 import cds.savot.model.SavotTD;
 import cds.savot.model.SavotTR;
 import java.io.Closeable;
